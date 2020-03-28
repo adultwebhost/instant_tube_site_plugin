@@ -1,7 +1,7 @@
 <?php
 /**
  * @package tube_site_widget
- * @version 0.1.0
+ * @version 0.1.1
  */
 /*
 Plugin Name: Instant Adult Website Widget WordPress Plugin
