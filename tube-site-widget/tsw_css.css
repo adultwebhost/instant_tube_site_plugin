@@ -1,0 +1,92 @@
+.tsw_container {display: flex;flex-wrap: wrap;clear:both}
+.tsw_container img{width:100%;height:auto}
+.tsw_video_container {overflow:hidden;}
+.tsw_duration {
+    color: #fff;
+    font-size: .6em;
+    position: absolute;
+    bottom: 7px;
+    right: 7px;
+    text-shadow: 2px 2px 5px black
+}
+.tsw_kw {font-size: .6em;position:relative;}
+.tsw_title {font-size:.9em;position:relative;}
+.tsw_bonus {
+    margin: auto;
+    text-align: center;
+}
+
+@media only screen and (max-width:560px) {
+    .tsw_video_container {
+        width: 100% !important;
+        padding: 8px;
+        
+    }
+}
+
+.modalDialog {
+    position: fixed;
+    top: 0px;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(0, 0, 0, .8);
+    z-index: 99999;
+    opacity: 0;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 450ms ease-in;
+    transition: opacity 450ms ease-in;
+    pointer-events: none
+}
+
+.modalDialog:target {
+    opacity: 1;
+    pointer-events: auto
+}
+
+.modalDialog>div {
+    width: 580px;
+    max-width: 95%;
+    position: relative;
+    margin: 5% auto;
+    padding: 5px 10px 13px 10px;
+    border-radius: 7px;
+    background: #fff;
+    background: -moz-linear-gradient(#fff, #999);
+    background: -webkit-linear-gradient(#fff, #999);
+    background: -o-linear-gradient(#fff, #999)
+}
+
+.close {
+    background: #606061;
+    color: #FFF !important;
+    line-height: 25px;
+    position: absolute;
+    right: -12px;
+    text-align: center;
+    top: -10px;
+    width: 24px;
+    text-decoration: none;
+    font-weight: 700;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+    font-size: 18px;
+}
+
+.close:hover {
+    background: #00d9ff;
+    font-size: 18px;
+}
+
+
+
+.close a {
+    color: #FFF !important
+}

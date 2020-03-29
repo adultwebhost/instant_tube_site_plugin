@@ -17,63 +17,67 @@ function tsw_main_shortcode( $atts ) {
 	  static $already_run = false;
 	   if ( $already_run !== true ) {
 	wp_enqueue_script( 'tsw-js' );
+	wp_enqueue_style( 'tsw-css' );
 	// Attributes
 	$atts = shortcode_atts(
 		array(
 			'category' => '82',
 			'300x250_ad'=> '<a href="https://www.adultwebhost1.com" alt="Adult Web Hosting"><img src="https://www.adultwebhost1.com/wp-content/uploads/2018/12/AWH_300x250.png" height="250" width="300" alt="Adult Wordpress Hosting"></a>',
 			'cw' => '300',
-			'ch' => '325',
 			'cm' => '10',
 			'max_videos' => '30',
-			'modal' => 'on',
+			'open_in_ph' => 'off',
 		),
 		$atts
 	);
+	$atts["max_videos"] = tsw_cleanData($atts["max_videos"]);
 	$xmlfile = simplexml_load_file(tsw_category_path($atts["category"]));
-	
-	 ob_start(); 
-	echo '<style>img{width:100%;height:auto}.span_1_of_4{width:'. tsw_cleanData($atts["cw"]) .'px;height:'. tsw_cleanData($atts["ch"]).'px;float:left;margin:'. tsw_cleanData($atts["cm"]) .'px !important;overflow:hidden;}.tsw_duration{color:#fff;font-size:16px;position:absolute;bottom:10px;right:7px;text-shadow:2px 2px 5px black}@media only screen and (max-width:560px){.span_1_of_4{width:100%;padding:8px;min-height:400px}}.modalDialog{position:fixed;top:0px;right:0;bottom:0;left:0;max-width:100% !important;width:100% !important; height:100% !important;background:rgba(0,0,0,.8);z-index:99999;opacity:0;-webkit-transition:opacity 400ms ease-in;-moz-transition:opacity 450ms ease-in;transition:opacity 450ms ease-in;pointer-events:none}.modalDialog:target{opacity:1;pointer-events:auto}.modalDialog>div{width:580px;max-width:95%;position:relative;margin:5% auto;padding:5px 10px 13px 10px;border-radius:7px;background:#fff;background:-moz-linear-gradient(#fff,#999);background:-webkit-linear-gradient(#fff,#999);background:-o-linear-gradient(#fff,#999)}.close{background:#606061;color:#FFF !important;line-height:25px;position:absolute;right:-12px;text-align:center;top:-10px;width:24px;text-decoration:none;font-weight:700;-webkit-border-radius:12px;-moz-border-radius:12px;border-radius:12px;-moz-box-shadow:1px 1px 3px #000;-webkit-box-shadow:1px 1px 3px #000;box-shadow:1px 1px 3px #000;font-size:18px;}.close:hover{background:#00d9ff;font-size:18px;}.tsw_bonus {margin:auto;text-align:center;}.close a{color:#FFF !important}</style>';
-		$i=0;
+	if ( $atts["max_videos"] > $xmlfile->channel->item->count()){$atts["max_videos"]= $xmlfile->channel->item->count();}
 	$tsw_script_params = array( );
+	 ob_start(); 
+	echo '<style>.tsw_video_container{width:'. tsw_cleanData($atts["cw"]) .'px !important;margin:'. tsw_cleanData($atts["cm"]) .'px !important;}</style>';
+		echo '<div class="tsw_container">';
+	$i=0;
 	foreach ($xmlfile->channel->item as $item) {
-		if($i==tsw_cleanData($atts["max_videos"])){break;}
-	array_push($tsw_script_params, htmlentities($item->embed));
-   echo '<div class="span_1_of_4" style="font-size:18px;">';
+		if($i==$atts["max_videos"]){break;}
+	
+   echo '<div class="tsw_video_container" id="tsw_'. $i .'">';
 		
-		if ($atts["modal"]=='on'){
-		echo "<div class='tsw_thumbnail-image' style='position:relative;'><a onclick=tsw_modal($i) href='#openModal' id='tsw_modal". $i . "'><img class='tsw_open-modal'  src='" . $item->thumb_large . "'></a>";}else{echo "<div class='tsw_thumbnail-image' style='position:relative;'><a target='_blank' href='". $item->link ."' id='tsw_modal". $i . "'><img class='tsw_open-modal'  src='" . $item->thumb_large . "'></a>";}
-		
+		if ($atts["open_in_ph"] == 'on'){echo '<div class="tsw_thumbnail-image" style="position:relative;""><a target="_blank" href="' . $item->link . '"><img src="' . $item->thumb_large . '"></a>';}else {
+			echo '<div class="tsw_thumbnail-image" style="position:relative;""><a onclick="return tsw_category_content(' . $i . ')" href="' . $item->link . '"><img src="' . $item->thumb_large . '"></a>';}
 		
 		
 		echo '<div class="tsw_duration">' . tsw_minutes($item->duration) . ' </div></div>';
-	
-		if ($atts["modal"]=='on'){
-		echo "<div style='font-size:18px;position:relative;'><a id='tsw_modal". $i . "' onclick=tsw_modal($i) class='tsw_open-modal' href='#openModal'>". tsw_trim_characters($item->title) ."</a></div>";}else{echo "<div style='font-size:18px;position:relative'><a target='_blank' id='tsw_modal". $i . "' class='tsw_open-modal' href='". $item->link ."'>". tsw_trim_characters($item->title) ."</a></div>";}
+		
+		if ($atts["open_in_ph"] == 'on'){echo '<div class="tsw_title"><a target="_blank" class="tsw_open-modal" href="' . $item->link . '">'. tsw_trim_characters($item->title) .'</a></div>';}else{
+			echo '<div class="tsw_title"><a onclick="return tsw_category_content('. $i . ')" class="tsw_open-modal" href="' . $item->link . '">'. tsw_trim_characters($item->title) .'</a></div>';}
 		
 		
-		
-		echo '<div style="font-size:14px;position:relative;">' .tsw_trim_characters($item->keywords) . '</div>';
+		echo '<div class="tsw_kw">' .tsw_trim_characters($item->keywords) . '</div>';
 		
 		if ($i=='6' || $i=='2' || $i=='11'){
-			if ($atts["300x250_ad"] == 'none'){echo '</div>';}else {echo  '</div><div class="span_1_of_4" style="min-width="300px"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>';}
+			if ($atts["300x250_ad"] == 'none'){echo '</div>';}else {echo  '</div><div class="tsw_video_container" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>';}
 			
 		}else {echo '</div>';}
 		
-		
+		if (wp_is_mobile()){
+
+			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container" style="min-width="300px"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
+		}else{
+			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
+		}
+
 		$i++;
 }
 
-echo '<div id="openModal" class="modalDialog" style="visibility:hidden;"><div><a href="#close" title="Close" class="close"> X </a><div class="tsw_iframe">' . $item->embed . '</div></div></div><div style="clear:both"></div>';
-	
-	wp_localize_script( 'tsw-js', 'tsw_scriptParams', $tsw_script_params );
-		    
+	echo '</div>';
+	    array_push($tsw_script_params, ob_get_clean());
 	   }
 	   $already_run = true;
-	return ob_get_clean();
+	   wp_localize_script( 'tsw-js', 'tsw_scriptParams', $tsw_script_params );
+	return end($tsw_script_params);
 }
 add_shortcode( 'tsw_tube', 'tsw_main_shortcode' );
-
 
 function tsw_minutes( $seconds )
 {
@@ -191,6 +195,7 @@ function tsw_category_path($category){
 }
  function tsw_scripts()
 {    wp_register_script(  'tsw-js', plugin_dir_url( __FILE__ ) . '/tsw_js.js', array( /* dependencies*/ ), 1.0023, true  );
+wp_register_style( 'tsw-css', plugin_dir_url( __FILE__ ) . '/tsw_css.css', array(), '1.0.0', 'all' );
     }
 
 add_action( 'wp_enqueue_scripts', 'tsw_scripts' );
