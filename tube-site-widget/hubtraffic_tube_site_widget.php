@@ -1,14 +1,14 @@
 <?php
 /**
  * @package tube_site_widget
- * @version 0.1.1
+ * @version 0.2
  */
 /*
 Plugin Name: Instant Adult Website Widget WordPress Plugin
 Plugin URI: https://plugin-demo.adultwebhost1.com/
 Description: Instant Adult Tube Site With Content by integrating with Hubtraffic Resources.
 Author: AdultWebHost1.com
-Version: 0.1.1
+Version: 0.2
 Author URI: https://adultwebhost1.com
 */
 
@@ -62,9 +62,9 @@ function tsw_main_shortcode( $atts ) {
 		
 		if (wp_is_mobile()){
 
-			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container" style="min-width="300px"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
+			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container2"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
 		}else{
-			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
+			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div><div class="tsw_video_container2"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container2" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div></div>');
 		}
 
 		$i++;

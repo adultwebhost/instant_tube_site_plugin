@@ -1,6 +1,7 @@
 .tsw_container {display: flex;flex-wrap: wrap;clear:both}
 .tsw_container img{width:100%;height:auto}
 .tsw_video_container {overflow:hidden;}
+.tsw_video_container2 {float:left;width: 300px !important;margin: 10px !important;}
 .tsw_duration {
     color: #fff;
     font-size: .6em;

@@ -7,7 +7,7 @@ function tsw_category_content(tsw_target){
 state = { 'page_id': tsw_target , 'page_location': window.pageYOffset};
 window.history.pushState(state, 'Main', "");
 document.querySelector(".tsw_container").innerHTML = tsw_scriptParams[tsw_target];
-window.scrollTo(0,200);
+window.scrollTo(0,0);
 //if (tsw_target!==(tsw_scriptParams.length -1)){window.scrollTo(0,200);}
 //else{document.querySelector('tsw_'+tsw_target).scrollIntoView({behavior: 'smooth'});}
 //console.log (window.top, tsw_scriptParams.length, tsw_target);
