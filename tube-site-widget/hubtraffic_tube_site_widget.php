@@ -62,9 +62,9 @@ function tsw_main_shortcode( $atts ) {
 		
 		if (wp_is_mobile()){
 
-			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container2"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
+			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div class="tsw_video_container"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div>');
 		}else{
-			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div><div class="tsw_video_container2"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container2" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div></div>');
+			array_push($tsw_script_params, htmlentities($item->embed) . '<hr /><div><div class="tsw_video_container"><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div><div class="tsw_video_container" ><div class="tsw_bonus">'. $atts["300x250_ad"].'</div></div></div>');
 		}
 
 		$i++;
